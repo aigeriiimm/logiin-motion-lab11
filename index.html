@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Motion Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap">
+<style>
+/* Provided layout. Add interaction styles in motion.css. */
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#182f29;background:#edf1ed;font-synthesis:none;--accent:#246b52;--ink:#182f29;--muted:#617169;--line:#ccd7cf}
+*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:wait}button:focus-visible,a:focus-visible{outline:3px solid #3c866b;outline-offset:5px}a{color:inherit}.shell{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;max-width:1600px;margin:auto}.intro{padding:50px 58px;background:#dce8df;display:flex;flex-direction:column}.brand{font-size:19px;font-weight:750;letter-spacing:.06em;text-decoration:none}.intro-copy{margin:auto 0;padding:55px 0}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:#557361;margin:0 0 21px}.intro h1{font-size:clamp(48px,5.4vw,78px);line-height:1.05;letter-spacing:-.055em;margin:0 0 34px;font-weight:650}.intro-copy>p:last-child{font-size:18px;line-height:1.7;max-width:280px;color:#4f695b}.intro-footer{font-size:12px;letter-spacing:.03em;color:#4c6b58}.workspace{background:#fbfcf9;padding:48px 55px 24px;display:flex;flex-direction:column;justify-content:center;min-width:0}.demo-label{font-size:11px;letter-spacing:.14em;color:#5d7165;margin:0 0 32px}.card-shell{width:100%;max-width:420px;margin:auto;min-height:420px}.card h2{font-size:48px;font-weight:650;line-height:1.12;letter-spacing:-.045em;margin:0 0 17px;overflow-wrap:anywhere}.card h2:focus{outline:none}.description{font-size:16px;color:var(--muted);line-height:1.6;margin:0 0 31px}fieldset{border:0;margin:0;padding:0;min-width:0}.field{margin-bottom:22px}.field label{display:block;font-size:14px;font-weight:650;margin-bottom:10px}.field input{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:16px;line-height:1.4}.field input:focus{outline:2px solid #537b65;outline-offset:2px}.field input::placeholder{color:#718278}.field small{display:block;font-size:12px;line-height:1.5;color:#637269;margin-top:10px}.primary{width:100%;display:flex;align-items:center;justify-content:center;gap:14px;min-height:52px;border:0;border-radius:8px;color:#fff;background:var(--accent);font-size:16px;font-weight:600;padding:15px 20px}.primary:disabled{opacity:.65}.primary>span:last-child:not(:first-child){margin-left:auto}.primary .spinner+span{margin-left:0!important;margin-right:auto}.spinner{width:18px;height:18px;flex:none;border:2px solid #ffffff55;border-top-color:#fff;border-radius:50%}.error-message{min-height:22px;font-size:13px;line-height:1.5;margin:0 0 18px;color:#a2393f}.profile-details{border-block:1px solid #d7e1d9;padding:23px 0;margin:30px 0}.profile-details dt{font-size:12px;color:#62786b;margin-bottom:12px}.profile-details dd{font-size:20px;line-height:1.5;margin:0;overflow-wrap:anywhere}.reload-hint{font-size:16px;line-height:1.65;margin:0 0 30px;color:var(--muted)}.notice{font-size:13px;line-height:1.5;min-height:20px;color:#8a5739;margin:24px 0 0}.demo-note{font-size:12px;color:#697b6d;line-height:1.5;margin:18px 0 0}.is-error input[aria-invalid=true]{border-color:#b35358}@media(max-width:760px){.shell{grid-template-columns:1fr}.intro{padding:25px 26px}.intro-copy,.intro-footer{display:none}.workspace{padding:28px 26px;min-height:calc(100dvh - 73px)}.card-shell{min-height:410px}.card h2{font-size:43px}.demo-label{margin-bottom:35px}.notice{margin-top:12px}.demo-note{margin-top:10px}}
+
+.switch-copy{font-size:14px;line-height:1.6;color:#617169;margin:24px 0 0}.text-button{border:0;background:none;color:var(--accent);padding:4px 5px;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:4px}.text-button:disabled{opacity:.4;cursor:wait}.signup-shell .field{margin-bottom:15px}.signup-shell .field input{padding:11px 14px}.signup-shell .field label{margin-bottom:7px}.signup-shell .description{margin-bottom:22px}.signup-shell .eyebrow{margin-bottom:14px}.signup-shell .field small{margin-top:6px}.signup-shell .switch-copy{margin-top:17px}.signup-shell .error-message{margin-bottom:12px}.panel-leave-active{pointer-events:none}
+
+
+/* ---------- Look & feel (loaded after base.css, so it overrides) ---------- */
+:root { --accent:#1f7a5c; --accent-2:#6fd3a8; --glow:#1f7a5c33; }
+body { background:#0e1f1a; }
+.intro { position:relative; overflow:hidden; background:#0e1f1a; color:#e8f4ed; isolation:isolate; }
+.intro .eyebrow, .intro-footer { color:#8fc4aa; }
+.intro-copy>p:last-child { color:#b6d6c4; }
+.brand { color:#e8f4ed; }
+.intro h1, .card h2 { font-family:'Fraunces',Georgia,serif; font-weight:650; letter-spacing:-.03em; }
+.workspace { background:linear-gradient(160deg,#fbfcf9 0%,#eef5ef 100%); }
+
+/* Drifting aurora blobs: one slow ambient moment on the intro panel */
+.intro::before,.intro::after { content:""; position:absolute; z-index:-1; border-radius:50%; filter:blur(70px); opacity:.55; }
+.intro::before { width:420px; height:420px; background:#2fae82; top:-120px; right:-100px; animation:drift 14s ease-in-out infinite alternate; }
+.intro::after  { width:360px; height:360px; background:#1b5fa3; bottom:-100px; left:-80px; animation:drift 18s ease-in-out infinite alternate-reverse; }
+@keyframes drift { to { transform:translate(-60px,70px) scale(1.2); } }
+
+/* Card gets a soft lifted surface */
+.card-shell { padding:34px 34px 28px; border-radius:20px; background:#fff;
+  box-shadow:0 1px 0 #fff inset,0 24px 60px -24px #0e1f1a40,0 2px 6px #0e1f1a14; }
+
+/* ---------- 01 · Input focus ---------- */
+.field input { transition:border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
+.field input:hover { background:#f6faf7; }
+.field input:focus { outline:none; border-color:var(--accent); background:#fff; box-shadow:0 0 0 4px var(--glow); }
+
+/* ---------- 02 · Button hover / press ---------- */
+.primary { position:relative; overflow:hidden; background:linear-gradient(135deg,#1f7a5c,#155a43);
+  transition:transform 180ms ease, box-shadow 180ms ease; }
+.primary::after { content:""; position:absolute; inset:0; transform:translateX(-120%);
+  background:linear-gradient(110deg,transparent 30%,#ffffff40 50%,transparent 70%); transition:transform 600ms ease; }
+.primary:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 12px 24px -8px #1f7a5c99; }
+.primary:hover:not(:disabled)::after { transform:translateX(120%); }
+.primary:active:not(:disabled) { transform:translateY(0) scale(.98); box-shadow:0 4px 10px -4px #1f7a5c99; }
+.text-button { transition:color 180ms ease; }
+.text-button:hover:not(:disabled) { color:#0f4d39; }
+
+/* ---------- 03 · Shake ---------- */
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%,75%{transform:translateX(-6px)} 50%{transform:translateX(6px)} }
+.is-error { animation:shake 380ms ease; }
+.is-error input[aria-invalid="true"] { box-shadow:0 0 0 4px #b3535822; }
+
+/* ---------- 04 · Spinner ---------- */
+@keyframes spin { to { transform:rotate(360deg); } }
+.spinner { animation:spin 800ms linear infinite; }
+
+/* ---------- 05 · Panel transition ---------- */
+.panel-enter-active,.panel-leave-active { transition:opacity 320ms ease, transform 320ms ease; }
+.panel-enter-from { opacity:0; transform:translateY(18px); }
+.panel-leave-to   { opacity:0; transform:translateY(-12px); }
+
+/* Welcome screen: gentle pop-in for the greeting */
+@keyframes pop { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:none} }
+.welcome .profile-details { animation:pop 420ms 120ms ease both; }
+
+/* ---------- 06 · Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .field input,.primary,.primary::after,.text-button,.panel-enter-active,.panel-leave-active { transition:none; }
+  .is-error,.spinner,.intro::before,.intro::after,.welcome .profile-details { animation:none; }
+  .primary:hover:not(:disabled),.primary:active:not(:disabled),
+  .panel-enter-from,.panel-leave-to { transform:none; }
+  .primary:hover:not(:disabled)::after { transform:translateX(-120%); }
+}
+
+</style></head>
+<body><div id="app"></div>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.js"></script>
+<script>
+const { createApp, ref, nextTick, onBeforeUnmount } = Vue
+// Browser-only UI data, not real authentication. No passwords or tokens.
+const ACCOUNTS_KEY = 'login-motion-lab.accounts.v2'
+const SESSION_KEY = 'login-motion-lab.session.v2'
+function validProfile(value) {
+  return value && typeof value === 'object' &&
+    typeof value.name === 'string' && value.name.trim().length >= 2 && value.name.length <= 60 &&
+    typeof value.email === 'string' && value.email.length <= 100 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.email)
+}
+function writeJSON(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+    return true
+  } catch { return false }
+}
+function readJSON(key) {
+  try {
+    const raw = localStorage.getItem(key)
+    return raw ? JSON.parse(raw) : null
+  } catch { return null }
+}
+function removeKey(key) {
+  try {
+    localStorage.removeItem(key)
+    return true
+  } catch { return false }
+}
+function readAccounts() {
+  const value = readJSON(ACCOUNTS_KEY)
+  if (!Array.isArray(value)) return []
+  return value.filter(validProfile).map(({ name, email }) => ({ name, email }))
+}
+function saveAccounts(accounts) {
+  if (!Array.isArray(accounts) || !accounts.every(validProfile)) return false
+  return writeJSON(ACCOUNTS_KEY, accounts.map(({ name, email }) => ({ name, email })))
+}
+function readSession() {
+  const value = readJSON(SESSION_KEY)
+  return value && typeof value.email === 'string' ? value.email : null
+}
+function saveSession(email) { return writeJSON(SESSION_KEY, { email }) }
+function clearSession() { return removeKey(SESSION_KEY) }
+
+const App = {
+  template: `<main class="shell">
+    <aside class="intro">
+      <a class="brand" href="#" @click.prevent>FORM / LAB</a>
+      <div class="intro-copy"><p class="eyebrow">SIGN IN &amp; SIGN UP</p>
+        <h1>Make the<br>next step<br>feel natural.</h1>
+        <p>Two forms. Clear feedback. One smooth experience.</p>
+      </div>
+      <p class="intro-footer">Web Service Design · English section</p>
+    </aside>
+    <section class="workspace" aria-label="Sign in and sign up practice">
+      <p class="demo-label">LOCAL DEMO</p>
+      <Transition name="panel" mode="out-in" @after-enter="focusPanel">
+        <section v-if="!profile" :key="mode" class="card-shell" :class="{ 'signup-shell': mode === 'signup' }">
+          <div ref="card" class="card" :class="{ 'is-error': shake }">
+            <p class="eyebrow">{{ mode === 'signup' ? 'START HERE' : 'WELCOME BACK' }}</p>
+            <h2 data-heading tabindex="-1">{{ mode === 'signup' ? 'Sign up.' : 'Sign in.' }}</h2>
+            <p class="description">{{ mode === 'signup' ? 'Create a demo profile in this browser.' : 'Use the email from your demo sign-up.' }}</p>
+            <form @submit.prevent="submitForm" novalidate :aria-busy="busy">
+              <fieldset :disabled="busy">
+                <div v-if="mode === 'signup'" class="field"><label for="name">Demo name</label>
+                  <input id="name" v-model="name" type="text" autocomplete="off" placeholder="Alex" maxlength="60" :aria-invalid="!!error" aria-describedby="form-error"></div>
+                <div class="field"><label for="email">Email</label>
+                  <input id="email" v-model="email" type="email" autocomplete="off" placeholder="alex@example.com" maxlength="100" :aria-invalid="!!error" aria-describedby="form-error"></div>
+                <div class="field"><label for="password">Demo password</label>
+                  <input id="password" v-model="password" type="password" autocomplete="off" placeholder="Any 4+ made-up characters" maxlength="100" :aria-invalid="!!error" aria-describedby="password-help form-error">
+                  <small id="password-help">{{ mode === 'signup' ? 'Never saved. Repeat the value below.' : 'Any 4+ characters work. No password check.' }}</small></div>
+                <div v-if="mode === 'signup'" class="field"><label for="confirm-password">Confirm demo password</label>
+                  <input id="confirm-password" v-model="confirmPassword" type="password" autocomplete="off" placeholder="Repeat the demo value" maxlength="100" :aria-invalid="!!error" aria-describedby="form-error"></div>
+                <p id="form-error" class="error-message" role="alert">{{ error }}</p>
+                <button class="primary" type="submit" :disabled="busy">
+                  <span v-if="busy" class="spinner" aria-hidden="true"></span>
+                  <span>{{ busy ? (mode === 'signup' ? 'Creating your profile…' : 'Opening your space…') : (mode === 'signup' ? 'Create demo account' : 'Sign in') }}</span>
+                  <span v-if="!busy" aria-hidden="true">→</span>
+                </button>
+              </fieldset>
+            </form>
+            <p class="switch-copy">{{ mode === 'signup' ? 'Already have a demo account?' : 'New to the demo?' }}
+              <button class="text-button" type="button" :disabled="busy" @click="switchMode(mode === 'signup' ? 'signin' : 'signup')">{{ mode === 'signup' ? 'Sign in' : 'Sign up' }}</button>
+            </p>
+          </div>
+        </section>
+        <section v-else key="welcome" class="card-shell">
+          <div class="card welcome">
+            <p class="eyebrow">YOUR DEMO SPACE</p><h2 data-heading tabindex="-1">Hello, {{ profile.name }}.</h2>
+            <p class="description">Your sign-up profile is ready.</p>
+            <dl class="profile-details"><dt>Demo email</dt><dd>{{ profile.email }}</dd></dl>
+            <p class="reload-hint">Reload to restore this screen. Sign out to return to the form.</p>
+            <button class="primary" type="button" @click="logout">Sign out <span aria-hidden="true">↗</span></button>
+          </div>
+        </section>
+      </Transition>
+      <p class="notice" role="status">{{ notice }}</p>
+      <p class="demo-note">UI practice only. Passwords are not saved or verified.</p>
+    </section>
+  </main>`,
+  setup() {
+
+
+const mode = ref('signin')
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+const accounts = ref(readAccounts())
+const savedEmail = readSession()
+const profile = ref(accounts.value.find(account => account.email === savedEmail) ?? null)
+const busy = ref(false)
+const error = ref('')
+const notice = ref('')
+const shake = ref(false)
+const card = ref(null)
+let timer
+
+async function showError(message) {
+  error.value = message
+  shake.value = false
+  await nextTick()
+  void card.value?.offsetWidth
+  shake.value = true
+}
+function switchMode(nextMode) {
+  if (busy.value) return
+  mode.value = nextMode
+  password.value = ''
+  confirmPassword.value = ''
+  error.value = ''
+  notice.value = ''
+  shake.value = false
+}
+async function submitForm() {
+  if (busy.value || profile.value) return
+  error.value = ''
+  notice.value = ''
+  const value = email.value.trim().toLowerCase()
+  if (mode.value === 'signup' && name.value.trim().length < 2) {
+    return showError('Use at least 2 characters for your demo name.')
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    return showError('Enter a demo email, such as alex@example.com.')
+  }
+  if (password.value.length < 4) {
+    return showError('Use at least 4 made-up password characters.')
+  }
+  const existing = accounts.value.find(account => account.email === value)
+  if (mode.value === 'signup') {
+    if (password.value !== confirmPassword.value) {
+      return showError('The two demo password fields must match.')
+    }
+    if (existing) return showError('This demo email already exists. Sign in instead.')
+  } else if (!existing) {
+    return showError('Create a demo account with this email first.')
+  }
+  busy.value = true
+  // UI delay only. No request or password verification happens here.
+  await new Promise(resolve => { timer = setTimeout(resolve, 1200) })
+  if (mode.value === 'signup') {
+    const account = { name: name.value.trim(), email: value }
+    accounts.value = [...accounts.value, account]
+    const saved = saveAccounts(accounts.value)
+    email.value = value
+    mode.value = 'signin'
+    notice.value = saved ? 'Demo account created. Sign in with this email.'
+      : 'Demo account created for this tab only. Sign in with this email.'
+  } else {
+    const saved = saveSession(existing.email)
+    profile.value = existing
+    notice.value = saved ? '' : 'Signed in for this tab only.'
+  }
+  password.value = ''
+  confirmPassword.value = ''
+  shake.value = false
+  busy.value = false
+}
+function logout() {
+  const removed = clearSession()
+  profile.value = null
+  mode.value = 'signin'
+  password.value = ''
+  confirmPassword.value = ''
+  error.value = ''
+  shake.value = false
+  notice.value = removed ? '' : 'Storage could not be cleared. Check browser settings.'
+}
+function focusPanel(element) { element.querySelector('[data-heading]')?.focus() }
+onBeforeUnmount(() => clearTimeout(timer))
+
+    return { mode, name, email, password, confirmPassword, profile, busy, error, notice, shake, card, submitForm, switchMode, logout, focusPanel }
+  }
+}
+createApp(App).mount('#app')
+</script></body></html>
